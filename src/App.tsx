@@ -60,7 +60,20 @@ function App() {
             <WalletMultiButton />
           </div>
           <h1 className="heading">Switch Master Control</h1>
-          <h1>Hello Solana</h1>
+          {/* Switches */}
+          <div className="switch-container"> 
+            {switches.map((state, index) => (
+              <div key={index} className="switch-item"> 
+                <label className="switch-label">{`Device ${index + 1}`}</label> 
+                <button
+                  className={`switch-button ${state ? "on" : "off"}`}
+                  onClick={() => handleSwitchChange(index)} // Usa la función
+                >
+                  {state ? "ON" : "OFF"}
+                </button>
+              </div>
+            ))}
+          </div>          
         </WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>
