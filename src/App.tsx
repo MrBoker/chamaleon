@@ -73,7 +73,35 @@ function App() {
                 </button>
               </div>
             ))}
-          </div>          
+          </div>
+          {/* Binary and u8 coding from the switches */}
+          <div
+            style={{
+              position: "absolute",
+              top: "210px",     
+              left: "5px",   
+            }}
+          >
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginTop: "20px", marginLeft: "20px" }}>
+              <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
+                <label style={{ fontWeight: "bold", marginRight: "10px" }}>Switches new value:</label>
+                <input
+                  type="text"
+                  value={switchesBinary}
+                  readOnly
+                />
+              </div>
+              <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
+                <label style={{ fontWeight: "bold", marginRight: "10px" }}>(u8 Format):</label>
+                <input
+                  type="text"
+                  value={switchesByte}
+                  readOnly
+                />
+              </div>
+            </div>
+          </div> 
+          {/* Components to show the switches states from the blockchain */}     
         </WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>
