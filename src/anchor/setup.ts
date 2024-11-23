@@ -2,6 +2,8 @@ import { IdlAccounts, Program } from "@coral-xyz/anchor";
 import { IDL, SwitchControlBack } from "./idl";
 import { clusterApiUrl, Connection, PublicKey } from "@solana/web3.js";
 
+import { Buffer } from "buffer";
+
 // Program ID for the switch-control-back program
 const programId = new PublicKey("ZEezLrad25hbcLTM54uz6E3knHUmQnLjohixBUx2ZRc");
 
