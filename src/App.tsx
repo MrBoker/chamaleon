@@ -1,3 +1,10 @@
+import { Buffer } from 'buffer';
+
+// Define Buffer globalmente si no está disponible
+if (!window.Buffer) {
+  window.Buffer = Buffer;
+}
+
 import { useMemo, useEffect, useState } from "react";
 import {
   ConnectionProvider,
