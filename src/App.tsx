@@ -101,7 +101,17 @@ function App() {
               </div>
             </div>
           </div> 
-          {/* Components to show the switches states from the blockchain */}     
+          {/* Components to show the switches states from the blockchain */}
+          <BlockchainDisplay
+            onStateUpdate={(byteValue) => {
+              setSwitchesByte(byteValue);
+              const newSwitches = Array.from(
+                { length: 8 },
+                (_, index) => Boolean((byteValue >> (7 - index)) & 1)
+              );
+              setSwitches(newSwitches); // Sync switches
+            }}
+          />
         </WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>
