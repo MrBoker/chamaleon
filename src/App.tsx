@@ -1,9 +1,10 @@
-import { useMemo } from "react";
+import { useMemo, useEffect, useState } from "react";
 import {
   ConnectionProvider,
   WalletProvider,
 } from "@solana/wallet-adapter-react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
+import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
 import {
   WalletModalProvider,
   WalletMultiButton,
@@ -15,19 +16,38 @@ import "./App.css";
 import "@solana/wallet-adapter-react-ui/styles.css";
  
 function App() {
+
+    // State in u8 format and in 8 bits to control every switch individually
+    const [switchesByte, setSwitchesByte] = useState<number>(0); // Valor u8
+    const [switches, setSwitches] = useState<boolean[]>(new Array(8).fill(false)); // Array of switches
+  
+    // Sync switches with switchesByte
+    useEffect(() => {
+      const newSwitches = Array.from({ length: 8 }, (_, index) => Boolean((switchesByte >> (7 - index)) & 1));
+      setSwitches(newSwitches);
+    }, [switchesByte]);
+
   // The network can be set to 'devnet', 'testnet', or 'mainnet-beta'.
   const network = WalletAdapterNetwork.Devnet;
   // You can also provide a custom RPC endpoint.
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
+  const wallets = useMemo(() => [new PhantomWalletAdapter()], [network]);
  
-  const wallets = useMemo(
-    () => [
-      // if desired, manually define specific/custom wallets here (normally not required)
-      // otherwise, the wallet-adapter will auto detect the wallets a user's browser has available
-    ],
-    [network],
-  );
- 
+  // Conversion of u8 to binary
+  const switchesBinary = switchesByte.toString(2).padStart(8, "0");
+
+  // Function to manage the state change of the switches
+  const handleSwitchChange = (index: number) => {
+    const adjustedIndex = 7 - index;
+    const newByte = switchesByte ^ (1 << adjustedIndex);
+    setSwitchesByte(newByte); // Update u8 value
+    const newSwitches = Array.from(
+      { length: 8 },
+      (_, i) => Boolean((newByte >> (7 - i)) & 1)
+    );
+    setSwitches(newSwitches); // Sync switches
+  };
+
   return (
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
