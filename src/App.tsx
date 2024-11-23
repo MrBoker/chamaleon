@@ -20,6 +20,8 @@ function App() {
     // State in u8 format and in 8 bits to control every switch individually
     const [switchesByte, setSwitchesByte] = useState<number>(0); // Valor u8
     const [switches, setSwitches] = useState<boolean[]>(new Array(8).fill(false)); // Array of switches
+    console.log("switches:", switches); // QUITAR
+
   
     // Sync switches with switchesByte
     useEffect(() => {
@@ -35,6 +37,7 @@ function App() {
  
   // Conversion of u8 to binary
   const switchesBinary = switchesByte.toString(2).padStart(8, "0");
+  console.log("switchesBinary:", switchesBinary); // QUITAR
 
   // Function to manage the state change of the switches
   const handleSwitchChange = (index: number) => {
@@ -47,12 +50,16 @@ function App() {
     );
     setSwitches(newSwitches); // Sync switches
   };
+  console.log("handleSwitchChange:", handleSwitchChange); // QUITAR
 
-  return (
+ return (
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
-          <WalletMultiButton />
+          <div className="wallet-container">
+            <WalletMultiButton />
+          </div>
+          <h1 className="heading">Switch Master Control</h1>
           <h1>Hello Solana</h1>
         </WalletModalProvider>
       </WalletProvider>
